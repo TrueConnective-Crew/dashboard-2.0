@@ -1,12 +1,14 @@
 import { Stack } from "@mui/joy";
 import CookieConsent from "react-cookie-consent";
 import ComingSoonCard from "../../components/ComingSoonCard";
+import AuthButton from "../../components/AuthButton";
 
 function PlaceholderPage() {
   return (
     <>
       <Stack
-        direction="row"
+        direction="column"
+        gap={3}
         sx={{
           justifyContent: "center",
           alignItems: "center",
@@ -15,6 +17,7 @@ function PlaceholderPage() {
         }}
       >
         <ComingSoonCard />
+        <AuthButton />
       </Stack>
       <CookieConsent
         buttonText="Okay, verstanden!"

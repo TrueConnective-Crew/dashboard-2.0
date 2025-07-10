@@ -13,6 +13,9 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
 - Responsive design that works on all devices
 - Dark/light mode with system preference detection
 - Fast development and build process with Vite
+- Authentication with Auth0
+- Error tracking and monitoring with Sentry
+- Cookie consent banner for GDPR compliance
 
 ## Getting Started
 
@@ -86,6 +89,9 @@ tc-dashboard-2.0/
 - [Vite](https://vitejs.dev/)
 - [React Router](https://reactrouter.com/)
 - [SASS](https://sass-lang.com/)
+- [Auth0](https://auth0.com/) - Authentication and authorization
+- [Sentry](https://sentry.io/) - Error tracking and monitoring
+- [React Cookie Consent](https://www.npmjs.com/package/react-cookie-consent) - Cookie consent banner
 
 ## Contributing
 

@@ -1,4 +1,4 @@
-- # Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- Authentification with Auth0
+  - Login / Logout handle
 - Cookie Consent Banner
-  - Added Library for Cookie Consent. 
+  - Added Library for Cookie Consent.
   - Added a Banner for Cookie Consent
 - Sentry integration for error tracking and monitoring
   - Added Sentry React SDK for error tracking

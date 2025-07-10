@@ -20,10 +20,7 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 
 - [ ] **Authentication System**
 
-  - [ ] Implement user login/logout functionality
-  - [ ] Add role-based access control
-  - [ ] Create user profile management
-  - [ ] Implement password reset functionality
+  - [x] Implement user login/logout functionality with Auth0
 
 - [ ] **Data Visualization Components**
   - [ ] Create reusable chart components (line, bar, pie charts)

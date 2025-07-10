@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import * as Sentry from "@sentry/react";
 import { createRoot } from "react-dom/client";
+import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "@fontsource/inter";
 import PlaceholderPage from "./pages/PlaceholderPage";
@@ -43,12 +44,20 @@ Sentry.init({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CssVarsProvider defaultMode="system">
-      <BrowserRouter>
-        <Routes>
-          <Route path={"*"} element={<PlaceholderPage />} />
-        </Routes>
-      </BrowserRouter>
-    </CssVarsProvider>
+    <Auth0Provider
+      domain={import.meta.env.VITE_AUTH0_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH0_CLIENTID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <CssVarsProvider defaultMode="system">
+        <BrowserRouter>
+          <Routes>
+            <Route path={"*"} element={<PlaceholderPage />} />
+          </Routes>
+        </BrowserRouter>
+      </CssVarsProvider>
+    </Auth0Provider>
   </StrictMode>,
 );
