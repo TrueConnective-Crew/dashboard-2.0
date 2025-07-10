@@ -34,12 +34,18 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
    yarn install
    ```
 
-3. Start the development server:
+3. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit the `.env` file to add your actual values.
+
+4. Start the development server:
    ```bash
    yarn dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+5. Open your browser and navigate to `http://localhost:5173`
 
 ## Available Scripts
 
@@ -58,6 +64,8 @@ tc-dashboard-2.0/
 │   ├── pages/          # Page components
 │   ├── main.tsx        # Application entry point
 │   └── index.sass      # Global styles
+├── .env                # Environment variables (not committed to git)
+├── .env.example        # Example environment variables template
 ├── .eslintrc.js        # ESLint configuration
 ├── tsconfig.json       # TypeScript configuration
 └── vite.config.ts      # Vite configuration

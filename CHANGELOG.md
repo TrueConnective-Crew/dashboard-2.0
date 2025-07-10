@@ -8,11 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Sentry integration for error tracking and monitoring
+  - Added Sentry React SDK for error tracking
+  - Configured session replay and browser tracing
+  - Added environment-specific configuration
+  - Enabled sourcemap generation for accurate error reporting
+- Environment variable support
+  - Added .env.example template
+  - Updated .gitignore to exclude .env files
+  - Added Sentry-specific environment variables
 - Documentation updates
   - Added GitMoji usage guidelines to CONTRIBUTING.md
   - Added Semantic Versioning and Keep a Changelog principles to CONTRIBUTING.md
   - Created comprehensive CHANGELOG.md (this file)
   - Updated README.md with reference to CHANGELOG.md
+  - Updated README.md with environment variable setup instructions
 
 ### Changed
 - Enhanced TODO.md with additional tasks for security and monitoring integration
