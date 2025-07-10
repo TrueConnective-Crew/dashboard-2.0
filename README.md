@@ -24,23 +24,28 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
 ### Installation
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/yourusername/tc-dashboard-2.0.git
+   git clone https://github.com/TrueConnective-Crew/tc-dashboard-2.0.git
    cd tc-dashboard-2.0
    ```
 
 2. Install dependencies:
+
    ```bash
    yarn install
    ```
 
 3. Set up environment variables:
+
    ```bash
    cp .env.example .env
    ```
+
    Then edit the `.env` file to add your actual values.
 
 4. Start the development server:
+
    ```bash
    yarn dev
    ```
@@ -66,8 +71,10 @@ tc-dashboard-2.0/
 │   └── index.sass      # Global styles
 ├── .env                # Environment variables (not committed to git)
 ├── .env.example        # Example environment variables template
-├── .eslintrc.js        # ESLint configuration
+├── eslint.config.js    # ESLint configuration
 ├── tsconfig.json       # TypeScript configuration
+├── tsconfig.app.json   # TypeScript application configuration
+├── tsconfig.node.json  # TypeScript Node configuration
 └── vite.config.ts      # Vite configuration
 ```
 

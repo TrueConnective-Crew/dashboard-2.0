@@ -1,4 +1,4 @@
-# Changelog
+- # Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Cookie Consent Banner
+  - Added Library for Cookie Consent. 
+  - Added a Banner for Cookie Consent
 - Sentry integration for error tracking and monitoring
   - Added Sentry React SDK for error tracking
   - Configured session replay and browser tracing
@@ -25,11 +28,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated README.md with environment variable setup instructions
 
 ### Changed
+
 - Enhanced TODO.md with additional tasks for security and monitoring integration
+- Updated README.md with correct repository URL and project structure
+- Updated TODO.md to mark Sentry integration task as completed
 
 ## [0.1.0] - 2023-06-28
 
 ### Added
+
 - Initial project setup with React 19, TypeScript, and MUI Joy
 - Project configuration
   - Vite 7 as build tool
@@ -52,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.0] - 2023-06-26
 
 ### Added
+
 - Initial repository setup
 - Basic project scaffolding with Vite
 - Added essential dependencies

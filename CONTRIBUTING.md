@@ -111,6 +111,7 @@ This project follows [Semantic Versioning](https://semver.org/) (SemVer). Versio
 3. PATCH version for backwards-compatible bug fixes
 
 When contributing, be mindful of how your changes might affect the version number:
+
 - Bug fixes will increment the PATCH version
 - New features that don't break existing functionality will increment the MINOR version
 - Breaking changes will increment the MAJOR version
@@ -129,6 +130,7 @@ When submitting a pull request, please include relevant changes to the CHANGELOG
 - Security - for security vulnerabilities
 
 Example changelog entry:
+
 ```
 ## [Unreleased]
 ### Added

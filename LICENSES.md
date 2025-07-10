@@ -6,33 +6,37 @@ This document lists all the dependencies used in TC Dashboard 2.0 and their resp
 
 ### Production Dependencies
 
-| Package | Version | License |
-|---------|---------|---------|
-| @emotion/react | ^11.14.0 | MIT |
-| @emotion/styled | ^11.14.1 | MIT |
-| @fontsource/inter | ^5.2.6 | MIT |
-| @mui/joy | ^5.0.0-beta.52 | MIT |
-| react | ^19.1.0 | MIT |
-| react-dom | ^19.1.0 | MIT |
-| react-icons | ^5.5.0 | MIT |
-| react-router | ^7.6.3 | MIT |
-| sass | ^1.89.2 | MIT |
+| Package              | Version        | License |
+| -------------------- | -------------- | ------- |
+| @emotion/react       | ^11.14.0       | MIT     |
+| @emotion/styled      | ^11.14.1       | MIT     |
+| @fontsource/inter    | ^5.2.6         | MIT     |
+| @mui/joy             | ^5.0.0-beta.52 | MIT     |
+| @sentry/browser      | ^9.37.0        | MIT     |
+| @sentry/react        | ^9.37.0        | MIT     |
+| @sentry/vite-plugin  | ^3.5.0         | MIT     |
+| react                | ^19.1.0        | MIT     |
+| react-cookie-consent | ^9.0.0         | MIT     |
+| react-dom            | ^19.1.0        | MIT     |
+| react-icons          | ^5.5.0         | MIT     |
+| react-router         | ^7.6.3         | MIT     |
+| sass                 | ^1.89.2        | MIT     |
 
 ### Development Dependencies
 
-| Package | Version | License |
-|---------|---------|---------|
-| @eslint/js | ^9.29.0 | MIT |
-| @types/react | ^19.1.8 | MIT |
-| @types/react-dom | ^19.1.6 | MIT |
-| @vitejs/plugin-react | ^4.5.2 | MIT |
-| eslint | ^9.29.0 | MIT |
-| eslint-plugin-react-hooks | ^5.2.0 | MIT |
-| eslint-plugin-react-refresh | ^0.4.20 | MIT |
-| globals | ^16.2.0 | MIT |
-| typescript | ~5.8.3 | Apache-2.0 |
-| typescript-eslint | ^8.34.1 | MIT |
-| vite | ^7.0.0 | MIT |
+| Package                     | Version | License    |
+| --------------------------- | ------- | ---------- |
+| @eslint/js                  | ^9.29.0 | MIT        |
+| @types/react                | ^19.1.8 | MIT        |
+| @types/react-dom            | ^19.1.6 | MIT        |
+| @vitejs/plugin-react        | ^4.5.2  | MIT        |
+| eslint                      | ^9.29.0 | MIT        |
+| eslint-plugin-react-hooks   | ^5.2.0  | MIT        |
+| eslint-plugin-react-refresh | ^0.4.20 | MIT        |
+| globals                     | ^16.2.0 | MIT        |
+| typescript                  | ~5.8.3  | Apache-2.0 |
+| typescript-eslint           | ^8.34.1 | MIT        |
+| vite                        | ^7.0.0  | MIT        |
 
 ## License Details
 

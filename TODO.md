@@ -5,18 +5,21 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 ## High Priority
 
 - [ ] **Implement Core Dashboard Layout**
+
   - [ ] Create a responsive sidebar navigation
   - [ ] Design and implement header with user information
   - [ ] Add breadcrumb navigation
   - [ ] Create dashboard grid layout for widgets
 
 - [ ] **Security and Monitoring Integration**
+
   - [ ] Integrate Snyk for vulnerability scanning
-  - [ ] Set up Sentry for error tracking and monitoring
+  - [x] Set up Sentry for error tracking and monitoring
   - [ ] Configure proper error boundaries in React components
   - [ ] Implement logging strategy
 
 - [ ] **Authentication System**
+
   - [ ] Implement user login/logout functionality
   - [ ] Add role-based access control
   - [ ] Create user profile management
@@ -31,12 +34,14 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 ## Medium Priority
 
 - [ ] **API Integration**
+
   - [ ] Set up API client with proper error handling
   - [ ] Implement data fetching with caching
   - [ ] Add real-time data updates where appropriate
   - [ ] Create mock API for development purposes
 
 - [ ] **Theme Customization**
+
   - [ ] Enhance dark/light mode toggle with animations
   - [ ] Add user theme preferences saving
   - [ ] Create additional theme options (high contrast, etc.)
@@ -51,12 +56,14 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 ## Low Priority
 
 - [ ] **Advanced Features**
+
   - [ ] Add export functionality for reports (PDF, CSV)
   - [ ] Implement dashboard customization (drag and drop widgets)
   - [ ] Add notification system
   - [ ] Create user activity logs
 
 - [ ] **Documentation**
+
   - [ ] Create comprehensive API documentation
   - [ ] Add JSDoc comments to all components
   - [ ] Create user guide with screenshots
@@ -71,11 +78,13 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 ## Future Considerations
 
 - [ ] **Internationalization**
+
   - [ ] Set up i18n framework
   - [ ] Add translations for common languages
   - [ ] Implement right-to-left support
 
 - [ ] **Accessibility**
+
   - [ ] Ensure WCAG 2.1 AA compliance
   - [ ] Add keyboard navigation
   - [ ] Implement screen reader support
@@ -89,6 +98,7 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 ## Technical Debt
 
 - [ ] **Code Quality**
+
   - [ ] Set up stricter ESLint rules
   - [ ] Add Prettier for consistent code formatting
   - [ ] Implement pre-commit hooks
