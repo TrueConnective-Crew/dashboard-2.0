@@ -1,12 +1,18 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Typography } from "@mui/joy";
+import {Button, Skeleton, Typography} from "@mui/joy";
 
 function AuthButton() {
   const { isLoading, isAuthenticated, error, loginWithRedirect, logout } =
     useAuth0();
 
   if (isLoading) {
-    return <Typography level="body-md">Loading...</Typography>;
+    return (
+      <Skeleton variant={"inline"} animation="pulse" loading={isLoading}>
+        <Button variant="soft" onClick={() => loginWithRedirect()}>
+          Login / Register
+        </Button>
+      </Skeleton>
+    );
   }
 
   if (error) {
@@ -31,6 +37,7 @@ function AuthButton() {
       <Button variant="soft" onClick={() => loginWithRedirect()}>
         Login / Register
       </Button>
+
     );
   }
 }
