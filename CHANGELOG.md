@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Docker deployment support
+  - Added Dockerfile with multi-stage build process
+  - Added docker-compose.yml for easier deployment
+  - Added Let's Encrypt SSL certification support
+  - Implemented dynamic domain name configuration
+  - Created .env.docker.example template for Docker environment variables
+  - Updated .gitignore to exclude Docker-related files and SSL certificates
+  - Added comprehensive Docker deployment documentation (DOCKER.md)
+  - Updated README.md with Docker deployment instructions
 - Authentification with Auth0
   - Login / Logout handle
 - Cookie Consent Banner

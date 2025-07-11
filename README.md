@@ -62,6 +62,59 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
 - `yarn lint` - Runs ESLint to check for code quality issues
 - `yarn preview` - Previews the production build locally
 
+## Docker Deployment
+
+The application can be deployed using Docker. For detailed instructions, see [DOCKER.md](DOCKER.md).
+
+### Quick Start with Docker
+
+1. Build the Docker image:
+
+   ```bash
+   docker build -t tc-dashboard .
+   ```
+
+2. Run the container:
+
+   ```bash
+   docker run -d -p 80:80 -p 443:443 \
+     -e VITE_ENVIRONMENT=prod \
+     -e VITE_SENTRY_DSN=your_sentry_dsn \
+     -e VITE_SENTRY_AUTH_TOKEN=your_sentry_auth_token \
+     -e VITE_AUTH0_DOMAIN=your_auth0_domain \
+     -e VITE_AUTH0_CLIENTID=your_auth0_clientid \
+     -e DOMAIN_NAME=your_domain_name \
+     -e ADMIN_EMAIL=your_email@example.com \
+     -v $(pwd)/letsencrypt:/etc/letsencrypt \
+     -v $(pwd)/certbot:/var/www/certbot \
+     --name tc-dashboard tc-dashboard
+   ```
+
+3. Access the application at `https://your_domain_name` (or `http://localhost` for local testing)
+
+### SSL Support with Let's Encrypt
+
+The Docker container is configured to automatically obtain and renew SSL certificates from Let's Encrypt. For this to work:
+
+- Your server must be publicly accessible on ports 80 and 443
+- The `DOMAIN_NAME` environment variable must be set to a domain that points to your server
+- The `ADMIN_EMAIL` environment variable should be set to a valid email address
+
+### Using Docker Compose
+
+You can use Docker Compose for easier deployment:
+
+```bash
+# Copy the example environment file
+cp .env.docker.example .env
+
+# Edit the .env file with your actual values
+nano .env
+
+# Start the container
+docker-compose up -d
+```
+
 ## Project Structure
 
 ```
@@ -72,8 +125,13 @@ tc-dashboard-2.0/
 │   ├── pages/          # Page components
 │   ├── main.tsx        # Application entry point
 │   └── index.sass      # Global styles
+├── dist/               # Production build output
 ├── .env                # Environment variables (not committed to git)
 ├── .env.example        # Example environment variables template
+├── .env.docker.example # Example environment variables for Docker
+├── Dockerfile          # Docker configuration for production deployment
+├── docker-compose.yml  # Docker Compose configuration
+├── DOCKER.md           # Docker deployment documentation
 ├── eslint.config.js    # ESLint configuration
 ├── tsconfig.json       # TypeScript configuration
 ├── tsconfig.app.json   # TypeScript application configuration

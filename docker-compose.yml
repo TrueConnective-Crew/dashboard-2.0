@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  tc-dashboard:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - VITE_SENTRY_DSN=${VITE_SENTRY_DSN}
+      - VITE_ENVIRONMENT=${VITE_ENVIRONMENT:-prod}
+      - VITE_SENTRY_AUTH_TOKEN=${VITE_SENTRY_AUTH_TOKEN}
+      - VITE_AUTH0_DOMAIN=${VITE_AUTH0_DOMAIN}
+      - VITE_AUTH0_CLIENTID=${VITE_AUTH0_CLIENTID}
+      - DOMAIN_NAME=${DOMAIN_NAME:-localhost}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@example.com}
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+      - ./certbot:/var/www/certbot
+    restart: unless-stopped
