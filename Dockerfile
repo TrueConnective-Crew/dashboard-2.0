@@ -25,8 +25,8 @@ RUN apk add --no-cache certbot openssl bash
 # Copy the built files from the build stage to the nginx html directory
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Create directories for Let's Encrypt
-RUN mkdir -p /etc/letsencrypt /var/www/certbot
+# Create directories for Let's Encrypt and entrypoint scripts
+RUN mkdir -p /etc/letsencrypt /var/www/certbot /docker-entrypoint.d
 
 # Create a default nginx configuration template
 RUN cat > /etc/nginx/conf.d/default.template << 'EOF'
@@ -59,49 +59,42 @@ server {
 EOF
 
 # Create a script to replace environment variables in nginx config
-RUN mkdir -p /docker-entrypoint.d && \
-    cat > /docker-entrypoint.d/30-nginx-config.sh << 'EOF' && \
+RUN echo '#!/bin/sh' > /docker-entrypoint.d/30-nginx-config.sh && \
+    echo 'envsubst < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.d/30-nginx-config.sh && \
     chmod +x /docker-entrypoint.d/30-nginx-config.sh
-#!/bin/sh
-envsubst < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
-EOF
 
 # Create a script to obtain and renew SSL certificates
-RUN cat > /docker-entrypoint.d/20-ssl-setup.sh << 'EOF' && \
+RUN echo '#!/bin/sh' > /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'if [ -z "$DOMAIN_NAME" ]; then' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '  echo "DOMAIN_NAME environment variable is not set. Using default configuration."' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '  cp /etc/nginx/conf.d/default.template /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '  exit 0' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'fi' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '# Check if certificates already exist' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'if [ ! -d "/etc/letsencrypt/live/$DOMAIN_NAME" ]; then' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '  echo "Obtaining SSL certificate for $DOMAIN_NAME..."' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '  certbot certonly --webroot -w /var/www/certbot \\' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '    --email ${ADMIN_EMAIL:-admin@example.com} \\' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '    -d $DOMAIN_NAME \\' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '    --agree-tos --non-interactive \\' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '    --deploy-hook "nginx -s reload"' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'else' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '  echo "SSL certificates for $DOMAIN_NAME already exist."' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'fi' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo '# Set up certificate renewal cron job' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'echo "0 12 * * * certbot renew --quiet --deploy-hook \"nginx -s reload\"" > /etc/crontabs/root' >> /docker-entrypoint.d/20-ssl-setup.sh && \
+    echo 'crond' >> /docker-entrypoint.d/20-ssl-setup.sh && \
     chmod +x /docker-entrypoint.d/20-ssl-setup.sh
-#!/bin/sh
-if [ -z "$DOMAIN_NAME" ]; then
-  echo "DOMAIN_NAME environment variable is not set. Using default configuration."
-  cp /etc/nginx/conf.d/default.template /etc/nginx/conf.d/default.conf
-  exit 0
-fi
-
-# Check if certificates already exist
-if [ ! -d "/etc/letsencrypt/live/$DOMAIN_NAME" ]; then
-  echo "Obtaining SSL certificate for $DOMAIN_NAME..."
-  certbot certonly --webroot -w /var/www/certbot \
-    --email ${ADMIN_EMAIL:-admin@example.com} \
-    -d $DOMAIN_NAME \
-    --agree-tos --non-interactive \
-    --deploy-hook "nginx -s reload"
-else
-  echo "SSL certificates for $DOMAIN_NAME already exist."
-fi
-
-# Set up certificate renewal cron job
-echo "0 12 * * * certbot renew --quiet --deploy-hook \"nginx -s reload\"" > /etc/crontabs/root
-crond
-EOF
 
 # Expose ports
 EXPOSE 80 443
 
 # Create a script to replace environment variables at runtime
-RUN cat > /docker-entrypoint.d/40-env-subst.sh << 'EOF' && \
+RUN echo '#!/bin/sh' > /docker-entrypoint.d/40-env-subst.sh && \
+    echo 'envsubst < /usr/share/nginx/html/env-config.template.js > /usr/share/nginx/html/env-config.js' >> /docker-entrypoint.d/40-env-subst.sh && \
     chmod +x /docker-entrypoint.d/40-env-subst.sh
-#!/bin/sh
-envsubst < /usr/share/nginx/html/env-config.template.js > /usr/share/nginx/html/env-config.js
-EOF
 
 # Create a template file for environment variables
 RUN cat > /usr/share/nginx/html/env-config.template.js << 'EOF'
