@@ -53,6 +53,7 @@ docker-compose up -d
 ```
 
 This command will:
+
 1. Build the application container using the Dockerfile
 2. Start all three services defined in docker-compose.yml
 3. Set up the network and volumes
@@ -70,6 +71,7 @@ https://your_domain_name
 The application requires the following environment variables:
 
 ### Application Configuration
+
 - `VITE_SENTRY_DSN`: Your Sentry DSN for error tracking
 - `VITE_ENVIRONMENT`: The environment (should be "prod" for production)
 - `VITE_SENTRY_AUTH_TOKEN`: Your Sentry authentication token
@@ -77,6 +79,7 @@ The application requires the following environment variables:
 - `VITE_AUTH0_CLIENTID`: Your Auth0 client ID
 
 ### SSL and Domain Configuration
+
 - `DOMAIN_NAME`: Your domain name (e.g., example.com)
 - `ADMIN_EMAIL`: Your email address for Let's Encrypt registration and notifications
 
@@ -95,6 +98,7 @@ The Dockerfile uses a multi-stage build process:
 #### nginx (Application Container)
 
 This container serves the React application. It:
+
 - Uses the image built from the Dockerfile
 - Is configured with environment variables for the domain name and SSL
 - Mounts the built application files to the nginx html directory
@@ -103,6 +107,7 @@ This container serves the React application. It:
 #### nginx-proxy (Reverse Proxy)
 
 This container handles routing and SSL termination. It:
+
 - Uses the nginxproxy/nginx-proxy image
 - Exposes ports 80 and 443
 - Mounts Docker socket and volumes for certificates and configuration
@@ -111,6 +116,7 @@ This container handles routing and SSL termination. It:
 #### acme-companion (SSL Certificate Manager)
 
 This container manages SSL certificates. It:
+
 - Uses the nginxproxy/acme-companion image
 - Automatically obtains and renews Let's Encrypt certificates
 - Shares volumes with nginx-proxy for certificate storage
