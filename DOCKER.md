@@ -2,86 +2,27 @@
 
 This document explains how to deploy the TC Dashboard application using Docker.
 
-## Building the Docker Image
+## Overview
 
-To build the Docker image, run the following command from the project root directory:
+The TC Dashboard application is deployed using Docker Compose with three main services:
 
-```bash
-docker build -t tc-dashboard .
-```
+1. **nginx** - The main application container that serves the React application
+2. **nginx-proxy** - A reverse proxy that handles routing and SSL termination
+3. **acme-companion** - A companion container for nginx-proxy that automatically obtains and renews SSL certificates from Let's Encrypt
 
-## Running the Container
+This setup provides automatic SSL certificate management and easy deployment with minimal configuration.
 
-To run the container, use the following command:
+## Prerequisites
 
-```bash
-docker run -d -p 80:80 -p 443:443 \
-  -e VITE_SENTRY_DSN=your_sentry_dsn \
-  -e VITE_ENVIRONMENT=prod \
-  -e VITE_SENTRY_AUTH_TOKEN=your_sentry_auth_token \
-  -e VITE_AUTH0_DOMAIN=your_auth0_tenant_domain \
-  -e VITE_AUTH0_CLIENTID=your_auth0_clientId \
-  -e DOMAIN_NAME=your_domain_name \
-  -e ADMIN_EMAIL=your_email@example.com \
-  -v $(pwd)/letsencrypt:/etc/letsencrypt \
-  -v $(pwd)/certbot:/var/www/certbot \
-  --name tc-dashboard tc-dashboard
-```
+- Docker and Docker Compose installed on your server
+- A domain name pointing to your server's IP address
+- Ports 80 and 443 open on your server's firewall
 
-Replace the environment variable values with your actual values.
+## Building and Deploying
 
-## Environment Variables
+### Step 1: Prepare Environment Variables
 
-The application requires the following environment variables:
-
-### Application Configuration
-- `VITE_SENTRY_DSN`: Your Sentry DSN for error tracking
-- `VITE_ENVIRONMENT`: The environment (should be "prod" for production)
-- `VITE_SENTRY_AUTH_TOKEN`: Your Sentry authentication token
-- `VITE_AUTH0_DOMAIN`: Your Auth0 tenant domain
-- `VITE_AUTH0_CLIENTID`: Your Auth0 client ID
-
-### SSL and Domain Configuration
-- `DOMAIN_NAME`: Your domain name (e.g., example.com)
-- `ADMIN_EMAIL`: Your email address for Let's Encrypt registration and notifications
-
-## SSL Configuration with Let's Encrypt
-
-The Docker container is configured to automatically obtain and renew SSL certificates from Let's Encrypt. Here's how it works:
-
-1. When the container starts, it checks if SSL certificates for your domain already exist
-2. If certificates don't exist, it uses certbot to obtain them from Let's Encrypt
-3. Nginx is configured to serve the application over HTTPS and redirect HTTP to HTTPS
-4. A cron job is set up to automatically renew the certificates before they expire
-
-For this to work properly:
-
-- Your server must be publicly accessible on ports 80 and 443
-- The `DOMAIN_NAME` environment variable must be set to a domain that points to your server
-- The `ADMIN_EMAIL` environment variable should be set to a valid email address
-
-## Using Docker Compose
-
-A `docker-compose.yml` file is provided in the repository. You can use it to deploy the application.
-
-### Option 1: Setting environment variables directly
-
-You can set the environment variables directly when running Docker Compose:
-
-```bash
-VITE_SENTRY_DSN=your_sentry_dsn \
-VITE_ENVIRONMENT=prod \
-VITE_SENTRY_AUTH_TOKEN=your_sentry_auth_token \
-VITE_AUTH0_DOMAIN=your_auth0_tenant_domain \
-VITE_AUTH0_CLIENTID=your_auth0_clientId \
-DOMAIN_NAME=your_domain_name \
-ADMIN_EMAIL=your_email@example.com \
-docker-compose up -d
-```
-
-### Option 2: Using a .env file
-
-Alternatively, you can create a `.env` file in the project root with your environment variables. A template file `.env.docker.example` is provided in the repository that you can copy and modify:
+Create a `.env` file in the project root with your environment variables. A template file `.env.docker.example` is provided in the repository that you can copy and modify:
 
 ```bash
 # Copy the example file
@@ -103,33 +44,132 @@ DOMAIN_NAME=your_domain_name
 ADMIN_EMAIL=your_email@example.com
 ```
 
-Then simply run:
+### Step 2: Build and Start the Containers
+
+Run the following command to build and start all the containers:
 
 ```bash
 docker-compose up -d
 ```
 
-Docker Compose will automatically load the environment variables from the `.env` file.
+This command will:
+1. Build the application container using the Dockerfile
+2. Start all three services defined in docker-compose.yml
+3. Set up the network and volumes
+
+### Step 3: Verify Deployment
+
+After a few minutes (to allow time for SSL certificate issuance), your application should be accessible at:
+
+```
+https://your_domain_name
+```
+
+## Environment Variables
+
+The application requires the following environment variables:
+
+### Application Configuration
+- `VITE_SENTRY_DSN`: Your Sentry DSN for error tracking
+- `VITE_ENVIRONMENT`: The environment (should be "prod" for production)
+- `VITE_SENTRY_AUTH_TOKEN`: Your Sentry authentication token
+- `VITE_AUTH0_DOMAIN`: Your Auth0 tenant domain
+- `VITE_AUTH0_CLIENTID`: Your Auth0 client ID
+
+### SSL and Domain Configuration
+- `DOMAIN_NAME`: Your domain name (e.g., example.com)
+- `ADMIN_EMAIL`: Your email address for Let's Encrypt registration and notifications
 
 ## How It Works
 
+### Multi-Stage Docker Build
+
 The Dockerfile uses a multi-stage build process:
 
-1. The first stage builds the application using Node.js
-2. The second stage serves the built files using Nginx with SSL support
+1. The first stage builds the application using Node.js 18 Alpine
+2. The second stage uses nginx:stable-alpine to serve the built files
+3. The custom nginx.conf is copied to configure the web server
 
-At runtime:
+### Docker Compose Services
 
-1. Environment variables are injected into the application using a script that creates a JavaScript file with the environment configuration
-2. Nginx is configured with the specified domain name
-3. Let's Encrypt certificates are obtained or renewed if needed
-4. The application is served over HTTPS with automatic HTTP to HTTPS redirection
+#### nginx (Application Container)
 
-## Persistent Volumes
+This container serves the React application. It:
+- Uses the image built from the Dockerfile
+- Is configured with environment variables for the domain name and SSL
+- Mounts the built application files to the nginx html directory
+- Connects to the webproxy network
 
-The Docker Compose configuration creates two volumes to persist data:
+#### nginx-proxy (Reverse Proxy)
 
-- `./letsencrypt:/etc/letsencrypt`: Stores the SSL certificates
-- `./certbot:/var/www/certbot`: Used by certbot for domain verification
+This container handles routing and SSL termination. It:
+- Uses the nginxproxy/nginx-proxy image
+- Exposes ports 80 and 443
+- Mounts Docker socket and volumes for certificates and configuration
+- Connects to the webproxy network
 
-These directories will be created in your project root if they don't exist. They should be backed up regularly to avoid losing your SSL certificates.
+#### acme-companion (SSL Certificate Manager)
+
+This container manages SSL certificates. It:
+- Uses the nginxproxy/acme-companion image
+- Automatically obtains and renews Let's Encrypt certificates
+- Shares volumes with nginx-proxy for certificate storage
+- Uses the ADMIN_EMAIL for Let's Encrypt registration
+
+### Persistent Volumes
+
+The Docker Compose configuration creates three volumes to persist data:
+
+- `nginx_certs`: Stores the SSL certificates
+- `nginx_vhost`: Stores virtual host configurations
+- `nginx_html`: Used for ACME challenges
+
+These volumes ensure that your SSL certificates and configurations are preserved even if containers are recreated.
+
+## Maintenance
+
+### Updating the Application
+
+To update the application:
+
+1. Pull the latest code changes
+2. Rebuild the Docker image:
+
+```bash
+docker-compose build
+```
+
+3. Restart the containers:
+
+```bash
+docker-compose up -d
+```
+
+### Viewing Logs
+
+To view logs from the containers:
+
+```bash
+# View logs from all containers
+docker-compose logs
+
+# View logs from a specific container
+docker-compose logs nginx
+
+# Follow logs in real-time
+docker-compose logs -f
+```
+
+### Stopping the Application
+
+To stop all containers:
+
+```bash
+docker-compose down
+```
+
+To stop and remove volumes (will delete SSL certificates):
+
+```bash
+docker-compose down -v
+```

@@ -64,56 +64,50 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
 
 ## Docker Deployment
 
-The application can be deployed using Docker. For detailed instructions, see [DOCKER.md](DOCKER.md).
+The application can be deployed using Docker Compose with automatic SSL certificate management. For detailed instructions, see [DOCKER.md](DOCKER.md).
 
-### Quick Start with Docker
+### Quick Start with Docker Compose
 
-1. Build the Docker image:
-
-   ```bash
-   docker build -t tc-dashboard .
-   ```
-
-2. Run the container:
+1. Create a `.env` file with your environment variables:
 
    ```bash
-   docker run -d -p 80:80 -p 443:443 \
-     -e VITE_ENVIRONMENT=prod \
-     -e VITE_SENTRY_DSN=your_sentry_dsn \
-     -e VITE_SENTRY_AUTH_TOKEN=your_sentry_auth_token \
-     -e VITE_AUTH0_DOMAIN=your_auth0_domain \
-     -e VITE_AUTH0_CLIENTID=your_auth0_clientid \
-     -e DOMAIN_NAME=your_domain_name \
-     -e ADMIN_EMAIL=your_email@example.com \
-     -v $(pwd)/letsencrypt:/etc/letsencrypt \
-     -v $(pwd)/certbot:/var/www/certbot \
-     --name tc-dashboard tc-dashboard
+   # Copy the example environment file
+   cp .env.docker.example .env
+
+   # Edit the .env file with your actual values
+   nano .env
    ```
 
-3. Access the application at `https://your_domain_name` (or `http://localhost` for local testing)
+2. Build and start the containers:
 
-### SSL Support with Let's Encrypt
+   ```bash
+   docker-compose up -d
+   ```
 
-The Docker container is configured to automatically obtain and renew SSL certificates from Let's Encrypt. For this to work:
+3. Access the application at `https://your_domain_name`
+
+### How It Works
+
+The Docker setup consists of three main services:
+
+1. **nginx** - Serves the React application
+2. **nginx-proxy** - Handles routing and SSL termination
+3. **acme-companion** - Automatically manages SSL certificates from Let's Encrypt
+
+This architecture provides:
+
+- Automatic SSL certificate issuance and renewal
+- Proper routing of HTTP/HTTPS traffic
+- Isolation of concerns between services
+- Persistent storage for certificates and configurations
+
+### Requirements
+
+For the Docker deployment to work properly:
 
 - Your server must be publicly accessible on ports 80 and 443
 - The `DOMAIN_NAME` environment variable must be set to a domain that points to your server
 - The `ADMIN_EMAIL` environment variable should be set to a valid email address
-
-### Using Docker Compose
-
-You can use Docker Compose for easier deployment:
-
-```bash
-# Copy the example environment file
-cp .env.docker.example .env
-
-# Edit the .env file with your actual values
-nano .env
-
-# Start the container
-docker-compose up -d
-```
 
 ## Project Structure
 

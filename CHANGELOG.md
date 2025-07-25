@@ -11,8 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Docker deployment support
   - Added Dockerfile with multi-stage build process
-  - Added docker-compose.yml for easier deployment
-  - Added Let's Encrypt SSL certification support
+  - Added docker-compose.yml with three-service architecture (nginx, nginx-proxy, acme-companion)
+  - Added custom nginx.conf for proper SPA routing and caching
+  - Implemented automatic SSL certification with nginx-proxy and acme-companion
   - Implemented dynamic domain name configuration
   - Created .env.docker.example template for Docker environment variables
   - Updated .gitignore to exclude Docker-related files and SSL certificates
