@@ -16,6 +16,17 @@ dist-ssr
 .env
 .env.*
 !.env.example
+!.env.docker.example
+
+# Docker
+docker-compose.override.yml
+.docker-data/
+
+# SSL Certificates
+certs/
+certbot/
+letsencrypt/
+ssl/
 
 # Editor directories and files
 .vscode/*

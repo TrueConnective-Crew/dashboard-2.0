@@ -1,0 +1,53 @@
+services:
+  nginx:
+    build: .
+    container_name: my-react-app
+    restart: always
+    environment:
+      - VIRTUAL_HOST=${DOMAIN_NAME}
+      - LETSENCRYPT_HOST=${DOMAIN_NAME}
+      - LETSENCRYPT_EMAIL=${ADMIN_EMAIL}
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    networks:
+      - webproxy
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    labels:
+      - com.github.nginx-proxy.nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - nginx_certs:/etc/nginx/certs
+      - nginx_vhost:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+    networks:
+      - webproxy
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: nginx-letsencrypt
+    restart: always
+    environment:
+      - DEFAULT_EMAIL=${ADMIN_EMAIL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nginx_certs:/etc/nginx/certs
+      - nginx_vhost:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+    networks:
+      - webproxy
+
+volumes:
+  nginx_certs:
+  nginx_vhost:
+  nginx_html:
+
+networks:
+  webproxy:
+    driver: bridge

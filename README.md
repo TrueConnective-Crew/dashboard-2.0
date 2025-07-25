@@ -13,6 +13,9 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
 - Responsive design that works on all devices
 - Dark/light mode with system preference detection
 - Fast development and build process with Vite
+- Authentication with Auth0
+- Error tracking and monitoring with Sentry
+- Cookie consent banner for GDPR compliance
 
 ## Getting Started
 
@@ -59,6 +62,53 @@ TC Dashboard 2.0 is a redesigned version of a dashboard application, currently i
 - `yarn lint` - Runs ESLint to check for code quality issues
 - `yarn preview` - Previews the production build locally
 
+## Docker Deployment
+
+The application can be deployed using Docker Compose with automatic SSL certificate management. For detailed instructions, see [DOCKER.md](DOCKER.md).
+
+### Quick Start with Docker Compose
+
+1. Create a `.env` file with your environment variables:
+
+   ```bash
+   # Copy the example environment file
+   cp .env.docker.example .env
+
+   # Edit the .env file with your actual values
+   nano .env
+   ```
+
+2. Build and start the containers:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+3. Access the application at `https://your_domain_name`
+
+### How It Works
+
+The Docker setup consists of three main services:
+
+1. **nginx** - Serves the React application
+2. **nginx-proxy** - Handles routing and SSL termination
+3. **acme-companion** - Automatically manages SSL certificates from Let's Encrypt
+
+This architecture provides:
+
+- Automatic SSL certificate issuance and renewal
+- Proper routing of HTTP/HTTPS traffic
+- Isolation of concerns between services
+- Persistent storage for certificates and configurations
+
+### Requirements
+
+For the Docker deployment to work properly:
+
+- Your server must be publicly accessible on ports 80 and 443
+- The `DOMAIN_NAME` environment variable must be set to a domain that points to your server
+- The `ADMIN_EMAIL` environment variable should be set to a valid email address
+
 ## Project Structure
 
 ```
@@ -69,8 +119,13 @@ tc-dashboard-2.0/
 │   ├── pages/          # Page components
 │   ├── main.tsx        # Application entry point
 │   └── index.sass      # Global styles
+├── dist/               # Production build output
 ├── .env                # Environment variables (not committed to git)
 ├── .env.example        # Example environment variables template
+├── .env.docker.example # Example environment variables for Docker
+├── Dockerfile          # Docker configuration for production deployment
+├── docker-compose.yml  # Docker Compose configuration
+├── DOCKER.md           # Docker deployment documentation
 ├── eslint.config.js    # ESLint configuration
 ├── tsconfig.json       # TypeScript configuration
 ├── tsconfig.app.json   # TypeScript application configuration
@@ -86,6 +141,9 @@ tc-dashboard-2.0/
 - [Vite](https://vitejs.dev/)
 - [React Router](https://reactrouter.com/)
 - [SASS](https://sass-lang.com/)
+- [Auth0](https://auth0.com/) - Authentication and authorization
+- [Sentry](https://sentry.io/) - Error tracking and monitoring
+- [React Cookie Consent](https://www.npmjs.com/package/react-cookie-consent) - Cookie consent banner
 
 ## Contributing
 

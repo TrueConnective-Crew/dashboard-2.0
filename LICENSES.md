@@ -8,6 +8,7 @@ This document lists all the dependencies used in TC Dashboard 2.0 and their resp
 
 | Package              | Version        | License |
 | -------------------- | -------------- | ------- |
+| @auth0/auth0-react   | ^2.3.0         | MIT     |
 | @emotion/react       | ^11.14.0       | MIT     |
 | @emotion/styled      | ^11.14.1       | MIT     |
 | @fontsource/inter    | ^5.2.6         | MIT     |
