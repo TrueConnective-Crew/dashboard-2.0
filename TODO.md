@@ -13,12 +13,12 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 
 - [ ] **Security and Monitoring Integration**
 
-  - [ ] Integrate Snyk for vulnerability scanning
+  - [x] Integrate Snyk for vulnerability scanning
   - [x] Set up Sentry for error tracking and monitoring
   - [ ] Configure proper error boundaries in React components
   - [ ] Implement logging strategy
 
-- [ ] **Authentication System**
+- [x] **Authentication System**
 
   - [x] Implement user login/logout functionality with Auth0
 
@@ -39,10 +39,10 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
 
 - [ ] **Theme Customization**
 
-  - [ ] Enhance dark/light mode toggle with animations
-  - [ ] Add user theme preferences saving
+  - [x] Enhance dark/light mode toggle with animations
+  - [x] Add user theme preferences saving
   - [ ] Create additional theme options (high contrast, etc.)
-  - [ ] Implement custom color schemes
+  - [ ] Implement custom color scheme (TrueConnective Theme)
 
 - [ ] **Performance Optimization**
   - [ ] Implement code splitting for better load times
@@ -85,7 +85,6 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
   - [ ] Ensure WCAG 2.1 AA compliance
   - [ ] Add keyboard navigation
   - [ ] Implement screen reader support
-  - [ ] Add high contrast mode
 
 - [ ] **Mobile App**
   - [ ] Evaluate React Native or PWA approach
