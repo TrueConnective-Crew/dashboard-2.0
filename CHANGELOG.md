@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced TODO.md with additional tasks for security and monitoring integration
 - Updated README.md with correct repository URL and project structure
 - Updated TODO.md to mark Sentry integration task as completed
+- Updated all Markdown docs: added stack detection, requirements, setup/run, scripts, env vars, tests TODOs, project structure, and license references; corrected stale info and added TODOs where templates are missing
 
 ## [0.1.0] - 2023-06-28
 

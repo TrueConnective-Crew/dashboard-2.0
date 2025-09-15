@@ -4,161 +4,135 @@ A modern dashboard application built with React, TypeScript, and MUI Joy.
 
 ## Overview
 
-TC Dashboard 2.0 is a redesigned version of a dashboard application, currently in early development. The application aims to provide a clean, intuitive interface for data visualization and management.
+TC Dashboard 2.0 is a redesigned dashboard application, currently in early development. The application aims to provide a clean, intuitive interface for data visualization and management. This README consolidates the key information to set up, run, and contribute to the project.
 
-## Features
+## Stack Detection
 
-- Modern React (v19) with TypeScript
-- Material UI Joy components for a consistent and beautiful UI
-- Responsive design that works on all devices
-- Dark/light mode with system preference detection
-- Fast development and build process with Vite
-- Authentication with Auth0
-- Error tracking and monitoring with Sentry
-- Cookie consent banner for GDPR compliance
+- Language: TypeScript
+- Runtime: Node.js (LTS recommended; exact version not pinned) — TODO: Specify exact Node version in .nvmrc or engines
+- Frontend Framework: React 19
+- UI Library: MUI Joy
+- Router: React Router 7
+- Build Tool/Bundler: Vite 7
+- Styling: SASS
+- Error Tracking: Sentry
+- Auth: Auth0
+- Package Manager: Yarn (yarn.lock present)
 
-## Getting Started
+### Entry Points
+- Application entry: src/main.tsx
+- HTML template: index.html
+- Dev server: Vite (vite config in vite.config.ts)
 
-### Prerequisites
+## Requirements
 
-- Node.js (latest LTS version recommended)
-- Yarn package manager
+- Node.js (LTS recommended)
+- Yarn package manager (classic)
+- For Docker deployment: Docker and Docker Compose, a resolvable domain, and open ports 80/443
 
-### Installation
+## Setup
 
-1. Clone the repository:
+1) Clone the repository
 
-   ```bash
    git clone https://github.com/TrueConnective-Crew/tc-dashboard-2.0.git
    cd tc-dashboard-2.0
-   ```
 
-2. Install dependencies:
+2) Install dependencies
 
-   ```bash
    yarn install
-   ```
 
-3. Set up environment variables:
+3) Environment variables
+- A sample .env is committed. Copy .env.example to .env and adjust values.
 
-   ```bash
-   cp .env.example .env
-   ```
+4) Run in development
 
-   Then edit the `.env` file to add your actual values.
-
-4. Start the development server:
-
-   ```bash
    yarn dev
-   ```
 
-5. Open your browser and navigate to `http://localhost:5173`
+5) Open the app
+- http://localhost:5173
 
-## Available Scripts
+## Scripts
 
-- `yarn dev` - Starts the development server
-- `yarn build` - Builds the app for production
-- `yarn lint` - Runs ESLint to check for code quality issues
-- `yarn preview` - Previews the production build locally
+From package.json:
+- yarn dev — Start Vite dev server
+- yarn build — Type-check (tsc -b) and build with Vite
+- yarn lint — Run ESLint
+- yarn preview — Preview the production build
 
-## Docker Deployment
+## Environment Variables
+The app reads the following variables via import.meta.env (Vite):
 
-The application can be deployed using Docker Compose with automatic SSL certificate management. For detailed instructions, see [DOCKER.md](DOCKER.md).
+Application/Sentry
+- VITE_SENTRY_DSN — Sentry DSN
+- VITE_ENVIRONMENT — dev | prod (used to tune Sentry configuration)
+- VITE_SENTRY_AUTH_TOKEN — Used by Sentry tooling during build/upload (not read at runtime in browser)
 
-### Quick Start with Docker Compose
+Auth0
+- VITE_AUTH0_DOMAIN — Auth0 tenant domain
+- VITE_AUTH0_CLIENTID — Auth0 application Client ID
 
-1. Create a `.env` file with your environment variables:
+Docker/SSL (used by deployment setup)
+- DOMAIN_NAME — Public domain for the app
+- ADMIN_EMAIL — Email for Let's Encrypt registration
 
-   ```bash
-   # Copy the example environment file
-   cp .env.docker.example .env
+Note: keep secrets out of version control. Use separate .env files per environment. They are not committed to the repo and are ignored by .gitignore.
 
-   # Edit the .env file with your actual values
-   nano .env
-   ```
+## Running and Building
 
-2. Build and start the containers:
+- Development: yarn dev
+- Lint: yarn lint
+- Production build: yarn build (artifacts in dist/)
+- Preview build locally: yarn preview
 
-   ```bash
-   docker-compose up -d
-   ```
+## Tests
 
-3. Access the application at `https://your_domain_name`
-
-### How It Works
-
-The Docker setup consists of three main services:
-
-1. **nginx** - Serves the React application
-2. **nginx-proxy** - Handles routing and SSL termination
-3. **acme-companion** - Automatically manages SSL certificates from Let's Encrypt
-
-This architecture provides:
-
-- Automatic SSL certificate issuance and renewal
-- Proper routing of HTTP/HTTPS traffic
-- Isolation of concerns between services
-- Persistent storage for certificates and configurations
-
-### Requirements
-
-For the Docker deployment to work properly:
-
-- Your server must be publicly accessible on ports 80 and 443
-- The `DOMAIN_NAME` environment variable must be set to a domain that points to your server
-- The `ADMIN_EMAIL` environment variable should be set to a valid email address
+Currently there is no test setup in the repository. TODO: Add unit/integration/E2E testing and document commands here.
 
 ## Project Structure
 
-```
+Root files and directories of this repository:
+
 tc-dashboard-2.0/
-├── public/             # Static assets
 ├── src/                # Source code
 │   ├── components/     # Reusable UI components
 │   ├── pages/          # Page components
 │   ├── main.tsx        # Application entry point
 │   └── index.sass      # Global styles
-├── dist/               # Production build output
-├── .env                # Environment variables (not committed to git)
-├── .env.example        # Example environment variables template
-├── .env.docker.example # Example environment variables for Docker
-├── Dockerfile          # Docker configuration for production deployment
-├── docker-compose.yml  # Docker Compose configuration
-├── DOCKER.md           # Docker deployment documentation
+├── index.html          # Vite HTML entry
+├── vite.config.ts      # Vite configuration
 ├── eslint.config.js    # ESLint configuration
 ├── tsconfig.json       # TypeScript configuration
-├── tsconfig.app.json   # TypeScript application configuration
-├── tsconfig.node.json  # TypeScript Node configuration
-└── vite.config.ts      # Vite configuration
-```
+├── tsconfig.app.json   # TS app config
+├── tsconfig.node.json  # TS node config
+├── Dockerfile          # Multi-stage build to Nginx
+├── docker-compose.yml  # Nginx + nginx-proxy + acme-companion
+├── nginx.conf          # Nginx conf for SPA
+├── .env                # Local env vars (not committed typically)
+├── README.md
+├── DOCKER.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSES.md
+├── TODO.md
+└── yarn.lock
 
-## Technologies
+## Docker Deployment
 
-- [React](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [MUI Joy](https://mui.com/joy-ui/getting-started/)
-- [Vite](https://vitejs.dev/)
-- [React Router](https://reactrouter.com/)
-- [SASS](https://sass-lang.com/)
-- [Auth0](https://auth0.com/) - Authentication and authorization
-- [Sentry](https://sentry.io/) - Error tracking and monitoring
-- [React Cookie Consent](https://www.npmjs.com/package/react-cookie-consent) - Cookie consent banner
-
-## Contributing
-
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
+See DOCKER.md for full instructions. Summary:
+- Create a .env with app and deployment variables
+- docker-compose up -d
+- Access via https://your-domain after certificates are provisioned
 
 ## License
 
-This project is proprietary. All rights reserved.
+Project status: proprietary (no root LICENSE file present). TODO: Add a top-level LICENSE or clarify licensing.
 
-For information about the licenses of dependencies used in this project, please see [LICENSES.md](LICENSES.md).
-
-## Roadmap
-
-For a list of planned features and improvements, see [TODO.md](TODO.md).
+Dependency licenses are listed in LICENSES.md.
 
 ## Changelog
 
-For a detailed history of changes to this project, see [CHANGELOG.md](CHANGELOG.md). This project follows [Semantic Versioning](https://semver.org/) and [Keep a Changelog](https://keepachangelog.com/) principles.
+See CHANGELOG.md. This project follows Semantic Versioning and Keep a Changelog.
+
+## Contributing
+
+See CONTRIBUTING.md for guidelines, coding standards, and workflow.

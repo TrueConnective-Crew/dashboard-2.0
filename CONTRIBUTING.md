@@ -44,11 +44,24 @@ We welcome suggestions for enhancements! Please create an issue with:
 - Keep pull requests focused on a single concern
 - Reference any relevant issues
 
+## Requirements
+
+- Node.js (LTS recommended)
+- Yarn package manager
+
 ## Development Setup
 
 1. Fork and clone the repository
 2. Install dependencies with `yarn install`
 3. Start the development server with `yarn dev`
+
+## Scripts
+
+The following scripts are available (see package.json for details):
+- `yarn dev` — Start Vite dev server
+- `yarn build` — Type-check and build
+- `yarn lint` — Lint the codebase
+- `yarn preview` — Preview the production build
 
 ## Coding Standards
 
@@ -72,9 +85,9 @@ We welcome suggestions for enhancements! Please create an issue with:
 
 ## Testing
 
-- Write tests for all new features
-- Ensure all tests pass before submitting a pull request
-- Test across different browsers and devices when possible
+- Currently there is no automated test setup in this repository. TODO: Add unit, integration, and end-to-end tests and document commands.
+- In the meantime, test manually across supported browsers and devices when possible.
+- When tests are introduced, ensure they pass locally and in CI before submitting a pull request.
 
 ## Git Workflow
 
@@ -88,17 +101,7 @@ We welcome suggestions for enhancements! Please create an issue with:
 
 We use GitMoji to add visual cues to our commit messages. This helps to quickly identify the purpose of a commit. Please prefix your commit messages with the appropriate emoji:
 
-- 🎨 `:art:` - Improve structure/format of the code
-- ✨ `:sparkles:` - Introduce new features
-- 🐛 `:bug:` - Fix a bug
-- 📝 `:memo:` - Add or update documentation
-- ♻️ `:recycle:` - Refactor code
-- 🔧 `:wrench:` - Add or update configuration files
-- 🚀 `:rocket:` - Deploy stuff
-- 🔒 `:lock:` - Fix security issues
-- ⬆️ `:arrow_up:` - Upgrade dependencies
-- ⬇️ `:arrow_down:` - Downgrade dependencies
-- 🚨 `:rotating_light:` - Fix linter warnings
+[Gitmoji](https://gitmoji.dev/)
 
 Example: `🐛 fix: resolve issue with authentication timeout`
 
@@ -142,6 +145,7 @@ Example changelog entry:
 ## Code Review Process
 
 All submissions require review. We use GitHub pull requests for this purpose.
+Own Reviews are accepted, because we are a small team and different Knowledges. 
 
 ## License
 

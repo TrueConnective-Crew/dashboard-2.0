@@ -1,6 +1,12 @@
 # Licenses
 
-This document lists all the dependencies used in TC Dashboard 2.0 and their respective licenses.
+## Overview
+
+This document lists all the third-party dependencies used in TC Dashboard 2.0 and their respective licenses. It is intended to help with compliance and attribution.
+
+## Project License
+
+The project itself is currently marked as proprietary and does not include a root LICENSE file. TODO: Add a top-level LICENSE file or clarify licensing terms in README.md.
 
 ## Dependencies
 

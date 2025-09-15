@@ -12,6 +12,19 @@ The TC Dashboard application is deployed using Docker Compose with three main se
 
 This setup provides automatic SSL certificate management and easy deployment with minimal configuration.
 
+## Quick Reference
+
+- Requirements: Docker, Docker Compose, resolvable domain, ports 80/443 open
+- Setup: Create .env with variables from this doc; then run `docker-compose up -d`
+- Run commands: `docker-compose up -d`, `docker-compose logs -f`, `docker-compose down`
+- Scripts: Not applicable for Docker; see package.json in README.md for app scripts
+- Environment variables: Listed below in the Environment Variables section
+- Tests: N/A for deployment; application tests are currently TODO (see README)
+- Project structure: See README.md -> Project Structure
+- License: See README.md -> License; dependency licenses in LICENSES.md
+
+NOTE: The repository references `.env.docker.example`, but it is not present. TODO: Add `.env.docker.example` to the repo.
+
 ## Prerequisites
 
 - Docker and Docker Compose installed on your server

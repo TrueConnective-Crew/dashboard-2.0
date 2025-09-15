@@ -104,3 +104,9 @@ This document outlines important and necessary tasks for the TC Dashboard 2.0 pr
   - [ ] Regular updates of dependencies
   - [ ] Audit and fix security vulnerabilities
   - [ ] Evaluate and remove unused dependencies
+
+
+## Meta
+
+- For project overview, requirements, setup/run commands, scripts, environment variables, tests status, and project structure, see README.md.
+- For licensing information, see README.md (License) and LICENSES.md for third-party licenses.
