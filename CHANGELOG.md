@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Configured session replay and browser tracing
   - Added environment-specific configuration
   - Enabled sourcemap generation for accurate error reporting
+  - Enabled Log Integration. 
 - Environment variable support
   - Added .env.example template
   - Updated .gitignore to exclude .env files
