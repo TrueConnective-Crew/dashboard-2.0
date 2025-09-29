@@ -92,6 +92,7 @@ Currently there is no test setup in the repository. TODO: Add unit/integration/E
 
 Root files and directories of this repository:
 
+```text
 tc-dashboard-2.0/
 ├── src/                # Source code
 │   ├── components/     # Reusable UI components
@@ -115,6 +116,7 @@ tc-dashboard-2.0/
 ├── LICENSES.md
 ├── TODO.md
 └── yarn.lock
+```
 
 ## Docker Deployment
 
