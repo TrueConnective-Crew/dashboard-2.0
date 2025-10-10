@@ -32,8 +32,8 @@ RUN npm run build
 
 # ---- runtime ----
 FROM nginx:stable-alpine AS runtime
-# Falls du eine eigene nginx.conf im Repo hast, kopiere sie hierher:
-# COPY infra/nginx.conf /etc/nginx/conf.d/default.conf
+# Use custom nginx.conf shipped with the repository for SPA routing fallback
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Standard-Location für statische Seiten
 COPY --from=builder /app/dist /usr/share/nginx/html
