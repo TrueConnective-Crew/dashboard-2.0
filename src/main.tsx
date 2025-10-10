@@ -7,6 +7,7 @@ import "@fontsource/inter";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import "./index.sass";
 import { CssVarsProvider } from "@mui/joy/styles/CssVarsProvider";
+import ProfilePicturePage from "./pages/ProfilePicturePage";
 
 let environmentName;
 let replaysSessionSampleRate;
@@ -56,6 +57,7 @@ createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
           <Routes>
             <Route path={"*"} element={<PlaceholderPage />} />
+            <Route path={"/tools/ppgen"} element={<ProfilePicturePage />} />
           </Routes>
         </BrowserRouter>
       </CssVarsProvider>
