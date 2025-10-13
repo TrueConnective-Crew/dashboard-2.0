@@ -36,8 +36,8 @@ Sentry.init({
     Sentry.consoleLoggingIntegration({ levels: ["log", "warn", "error"] }),
   ],
 
-    // Log tracing
-    enableLogs: true,
+  // Log tracing
+  enableLogs: true,
 
   // Tracing
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
