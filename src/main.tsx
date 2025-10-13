@@ -2,12 +2,17 @@ import { StrictMode } from "react";
 import * as Sentry from "@sentry/react";
 import { createRoot } from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import "@fontsource/inter";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import "./index.sass";
 import { CssVarsProvider } from "@mui/joy/styles/CssVarsProvider";
 import ProfilePicturePage from "./pages/ProfilePicturePage";
+
+const router = createBrowserRouter([
+  { path: "*", element: <PlaceholderPage /> },
+  { path: "/tools/ppgen", element: <ProfilePicturePage /> },
+]);
 
 let environmentName;
 let replaysSessionSampleRate;
@@ -47,7 +52,17 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 });
 
-createRoot(document.getElementById("root")!).render(
+const container = document.getElementById("root")!;
+
+createRoot(container, {
+    onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+        console.warn('Uncaught error', error, errorInfo.componentStack);
+    }),
+    // Callback called when React catches an error in an ErrorBoundary.
+    onCaughtError: Sentry.reactErrorHandler(),
+    // Callback called when React automatically recovers from errors.
+    onRecoverableError: Sentry.reactErrorHandler(),
+}).render(
   <StrictMode>
     <Auth0Provider
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
@@ -57,12 +72,7 @@ createRoot(document.getElementById("root")!).render(
       }}
     >
       <CssVarsProvider defaultMode="system">
-        <BrowserRouter>
-          <Routes>
-            <Route path={"*"} element={<PlaceholderPage />} />
-            <Route path={"/tools/ppgen"} element={<ProfilePicturePage />} />
-          </Routes>
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </CssVarsProvider>
     </Auth0Provider>
   </StrictMode>,

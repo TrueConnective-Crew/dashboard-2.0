@@ -141,8 +141,8 @@ function AvatarComposer({ avatarUrl }: Props) {
 
   return (
     <Stack direction="column" spacing={4}>
-      <Stack direction={"row"} spacing={4}>
-        <Stack direction={"column"} spacing={2}>
+      <Stack direction={{ xs: "column", md: "row" }} spacing={4} alignItems={{ xs: "center", md: "flex-start" }}>
+        <Stack direction={"column"} spacing={4}>
           <canvas
             ref={canvasRef_original}
             style={{ width: "256px", height: "256px" }}
@@ -150,7 +150,7 @@ function AvatarComposer({ avatarUrl }: Props) {
           <Typography textAlign={"center"}>Original</Typography>
         </Stack>
 
-        <Stack direction={"column"} spacing={2}>
+        <Stack direction={"column"} spacing={4}>
           <canvas
             ref={canvasRef_orange}
             style={{ width: "256px", height: "256px" }}
@@ -158,7 +158,7 @@ function AvatarComposer({ avatarUrl }: Props) {
           <Typography textAlign={"center"}>Kürbis</Typography>
         </Stack>
 
-        <Stack direction={"column"} spacing={2}>
+        <Stack direction={"column"} spacing={4}>
           <canvas
             ref={canvasRef_red}
             style={{ width: "256px", height: "256px" }}
