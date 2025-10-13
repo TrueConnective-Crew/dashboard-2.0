@@ -58,6 +58,7 @@ We welcome suggestions for enhancements! Please create an issue with:
 ## Scripts
 
 The following scripts are available (see package.json for details):
+
 - `yarn dev` — Start Vite dev server
 - `yarn build` — Type-check and build
 - `yarn lint` — Lint the codebase
@@ -145,7 +146,7 @@ Example changelog entry:
 ## Code Review Process
 
 All submissions require review. We use GitHub pull requests for this purpose.
-Own Reviews are accepted, because we are a small team and different Knowledges. 
+Own Reviews are accepted, because we are a small team and different Knowledges.
 
 ## License
 

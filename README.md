@@ -20,6 +20,7 @@ TC Dashboard 2.0 is a redesigned dashboard application, currently in early devel
 - Package Manager: Yarn (yarn.lock present)
 
 ### Entry Points
+
 - Application entry: src/main.tsx
 - HTML template: index.html
 - Dev server: Vite (vite config in vite.config.ts)
@@ -32,46 +33,53 @@ TC Dashboard 2.0 is a redesigned dashboard application, currently in early devel
 
 ## Setup
 
-1) Clone the repository
+1. Clone the repository
 
    git clone https://github.com/TrueConnective-Crew/tc-dashboard-2.0.git
    cd tc-dashboard-2.0
 
-2) Install dependencies
+2. Install dependencies
 
    yarn install
 
-3) Environment variables
+3. Environment variables
+
 - A sample .env is committed. Copy .env.example to .env and adjust values.
 
-4) Run in development
+4. Run in development
 
    yarn dev
 
-5) Open the app
+5. Open the app
+
 - http://localhost:5173
 
 ## Scripts
 
 From package.json:
+
 - yarn dev — Start Vite dev server
 - yarn build — Type-check (tsc -b) and build with Vite
 - yarn lint — Run ESLint
 - yarn preview — Preview the production build
 
 ## Environment Variables
+
 The app reads the following variables via import.meta.env (Vite):
 
 Application/Sentry
+
 - VITE_SENTRY_DSN — Sentry DSN
 - VITE_ENVIRONMENT — dev | prod (used to tune Sentry configuration)
 - VITE_SENTRY_AUTH_TOKEN — Used by Sentry tooling during build/upload (not read at runtime in browser)
 
 Auth0
+
 - VITE_AUTH0_DOMAIN — Auth0 tenant domain
 - VITE_AUTH0_CLIENTID — Auth0 application Client ID
 
 Docker/SSL (used by deployment setup)
+
 - DOMAIN_NAME — Public domain for the app
 - ADMIN_EMAIL — Email for Let's Encrypt registration
 
@@ -121,6 +129,7 @@ tc-dashboard-2.0/
 ## Docker Deployment
 
 See DOCKER.md for full instructions. Summary:
+
 - Create a .env with app and deployment variables
 - docker-compose up -d
 - Access via https://your-domain after certificates are provisioned
