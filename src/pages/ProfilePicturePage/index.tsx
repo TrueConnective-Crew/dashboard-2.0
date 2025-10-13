@@ -2,7 +2,7 @@
 import type { TikTokUserResponse } from "../../utils/TikTokUserResponse.ts";
 import AvatarComposer from "../../utils/ProfilePictureComposer.tsx";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // MUI Joy
 import Box from "@mui/joy/Box";
@@ -14,6 +14,7 @@ import Button from "@mui/joy/Button";
 import Stack from "@mui/joy/Stack";
 import Snackbar from "@mui/joy/Snackbar";
 import Alert from "@mui/joy/Alert";
+import {Divider} from "@mui/joy";
 
 async function getProfilePicture(username: string) {
     const options = {
@@ -47,6 +48,8 @@ function ProfilePicturePage() {
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [showComposer, setShowComposer] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [localObjectUrl, setLocalObjectUrl] = useState<string | null>(null);
 
     // Ersatz für toaster.create(...)
     const [toast, setToast] = useState<ToastState>({
@@ -59,6 +62,37 @@ function ProfilePicturePage() {
         message: string,
         color: ToastState["color"] = "neutral"
     ) => setToast({ open: true, message, color });
+
+    const handleChooseOtherImage = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) {
+            showToast("Keine Datei ausgewählt", "warning");
+            return;
+        }
+        // Revoke previous blob URL if any
+        if (localObjectUrl) {
+            URL.revokeObjectURL(localObjectUrl);
+        }
+        const url = URL.createObjectURL(file);
+        setLocalObjectUrl(url);
+        setAvatarUrl(url);
+        setShowComposer(true);
+        showToast("Eigenes Bild geladen", "success");
+        // Reset input value to allow re-selecting the same file
+        e.target.value = "";
+    };
+
+    useEffect(() => {
+        return () => {
+            if (localObjectUrl) {
+                URL.revokeObjectURL(localObjectUrl);
+            }
+        };
+    }, [localObjectUrl]);
 
     const handleGetProfilePicture = async () => {
         if (!username) {
@@ -96,7 +130,7 @@ function ProfilePicturePage() {
             justifyContent="center"
             p={4}
         >
-            <Card variant="outlined" sx={{ width: 560, maxWidth: "100%" }}>
+            <Card variant="outlined" sx={{ width: "auto", maxWidth: "100%" }}>
                 <CardContent>
                     <Typography level="h2" textAlign="center" sx={{ mb: 2 }}>
                         TC Profilbild Generator
@@ -132,8 +166,29 @@ function ProfilePicturePage() {
                         </Button>
 
                         {showComposer && avatarUrl && (
-                            <AvatarComposer avatarUrl={avatarUrl} userName={username}/>
+                            <AvatarComposer avatarUrl={avatarUrl}/>
                         )}
+
+                        <Divider>
+                            Oder
+                        </Divider>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileSelected}
+                            style={{ display: "none" }}
+                        />
+                        <Button
+                            onClick={handleChooseOtherImage}
+                            variant="soft"
+                            color="primary"
+                            size="lg"
+                            sx={{ width: 320 }}
+                        >
+                            Eigenes Bild hochladen
+                        </Button>
+
                     </Stack>
                 </CardContent>
             </Card>
