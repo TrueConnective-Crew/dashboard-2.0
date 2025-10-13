@@ -6,10 +6,9 @@ import {Stack, Dropdown, MenuButton, Menu, MenuItem, ListDivider, Typography} fr
 
 interface Props {
     avatarUrl: string;
-    userName: string;
 }
 
-function AvatarComposer({ avatarUrl, userName }: Props) {
+function AvatarComposer({ avatarUrl }: Props) {
     const canvasRef_original = useRef<HTMLCanvasElement>(null);
     const canvasRef_orange = useRef<HTMLCanvasElement>(null);
     const canvasRef_red = useRef<HTMLCanvasElement>(null);
@@ -101,9 +100,9 @@ function AvatarComposer({ avatarUrl, userName }: Props) {
 
     function handleDownloadAll(): void {
         try {
-            triggerDownload(canvasRef_original.current, `${userName}_tc-crew-original.png`);
-            triggerDownload(canvasRef_orange.current, `${userName}_tc-crew-orange.png`);
-            triggerDownload(canvasRef_red.current, `${userName}_tc-crew-red.png`);
+            triggerDownload(canvasRef_original.current, `$tc-crew-original.png`);
+            triggerDownload(canvasRef_orange.current, `tc-crew-orange.png`);
+            triggerDownload(canvasRef_red.current, `tc-crew-red.png`);
         } catch (e) {
             console.error("Fehler beim Herunterladen der Profilbilder", e);
         }
@@ -127,7 +126,7 @@ function AvatarComposer({ avatarUrl, userName }: Props) {
                     target = canvasRef_original.current;
                     suffix = "original";
             }
-            triggerDownload(target, `${userName}_tc-crew-${suffix}.png`);
+            triggerDownload(target, `tc-crew-${suffix}.png`);
         } catch (e) {
             console.error("Fehler beim Herunterladen des Profilbilds", e);
         }

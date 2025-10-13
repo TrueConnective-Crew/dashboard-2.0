@@ -81,10 +81,6 @@ function ProfilePicturePage() {
         setLocalObjectUrl(url);
         setAvatarUrl(url);
         setShowComposer(true);
-        if (!username) {
-            const base = file.name.replace(/\.[^/.]+$/, "");
-            setUsername(base);
-        }
         showToast("Eigenes Bild geladen", "success");
         // Reset input value to allow re-selecting the same file
         e.target.value = "";
@@ -170,7 +166,7 @@ function ProfilePicturePage() {
                         </Button>
 
                         {showComposer && avatarUrl && (
-                            <AvatarComposer avatarUrl={avatarUrl} userName={username}/>
+                            <AvatarComposer avatarUrl={avatarUrl}/>
                         )}
 
                         <Divider>
